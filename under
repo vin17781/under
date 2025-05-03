@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>EMQX MQTT Auto-Publish</title>
+  <title>EMQX MQTT Auto-Publish for App Inventor</title>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
 <body style="font-family: sans-serif; text-align: center; padding-top: 50px;">
@@ -16,11 +16,19 @@
 
     client.on("connect", function () {
       client.publish(topic, message);
-      document.getElementById("status").innerText = "✅ Pubblicato: \"" + message + "\" su topic \"" + topic + "\"";
+      const msg = "✅ Pubblicato: '" + message + "' su topic '" + topic + "'";
+      document.getElementById("status").innerText = msg;
+      if (window.AppInventor) {
+        window.AppInventor.setWebViewString(msg);
+      }
     });
 
     client.on("error", function (err) {
-      document.getElementById("status").innerText = "❌ Errore di connessione: " + err.message;
+      const errorMsg = "❌ Errore: " + err.message;
+      document.getElementById("status").innerText = errorMsg;
+      if (window.AppInventor) {
+        window.AppInventor.setWebViewString(errorMsg);
+      }
     });
   </script>
 </body>
