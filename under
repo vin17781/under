@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>EMQX MQTT Auto-Publish</title>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding-top: 50px;">
+  <h2>MQTT - Pubblicazione automatica</h2>
+  <p id="status">Connessione al broker...</p>
+
+  <script>
+    const topic = "giufanuni";
+    const message = "1";
+    const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
+
+    client.on("connect", function () {
+      client.publish(topic, message);
+      document.getElementById("status").innerText = "✅ Pubblicato: \"" + message + "\" su topic \"" + topic + "\"";
+    });
+
+    client.on("error", function (err) {
+      document.getElementById("status").innerText = "❌ Errore di connessione: " + err.message;
+    });
+  </script>
+</body>
+</html>
